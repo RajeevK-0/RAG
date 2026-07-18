@@ -9,7 +9,7 @@ class AppConfig:
     def __init__(self):
         load_dotenv()
         self.llm_api_key = self._get_env_var("GROQ_API_KEY")
-        
+        self.langsmith_api_key = self._get_env_var("LANGSMITH_API_KEY")
     def _get_env_var(self, var_name: str) -> str:
         """Private method to fetch and validate environment variables."""
         value = os.getenv(var_name)
