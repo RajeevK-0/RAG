@@ -17,7 +17,7 @@ app = FastAPI(title="AI/ML Research paper RAG api",
 
 from ragModule.config import config
 ls_client = Client(api_key=config.langsmith_api_key)
-judge_llm = ChatGroq(model='qwen/qwen3-32b', temperature= 0,api_key=config.llm_api_key,reasoning_format='hidden')
+judge_llm = ChatGroq(model='openai/gpt-oss-20b', temperature= 0,api_key=config.llm_api_key,reasoning_format='hidden')
 
 def langsmith_eval(run_id:str , question: str , full_response:str , context:list):
     """Evaluate the live response and logs the feedback to langsmith"""
@@ -59,7 +59,7 @@ def langsmith_eval(run_id:str , question: str , full_response:str , context:list
 rag = RAGPipeline()
 class queryRequest(BaseModel):
     user_query :str
-    k :int = 3
+    k :int = 7
     history :list = []
 
 @traceable(name="LIVE_RAG_TRACING")
