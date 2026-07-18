@@ -20,10 +20,14 @@ class RAGSearch:
         self.llm = ChatGroq(groq_api_key=config.llm_api_key, model_name=llm_model,reasoning_format='hidden')
         print(f"[INFO] Groq LLM initialized: {llm_model}")
 
-    def search_and_summarize(self, query: str, top_k: int = 5 ,history:list = None) -> str:
+    def get_context(self,query:str , top_k:int = 5):
         results = self.vectorstore.query(query, top_k=top_k)
         texts = [r["metadata"].get("text", "") for r in results if r["metadata"]]
         context = "\n\n".join(texts)
+        return context
+    
+    def search_and_summarize(self, query: str, top_k: int = 5 ,history:list = None) -> str:
+        context = self.get_context(query=query , top_k=top_k)
         if not context:
             return "No relevant documents found."
         prompt = ChatPromptTemplate.from_messages([('system',"you are an helpful ai research assistant. Answer based on retrieved context: {context}"),
