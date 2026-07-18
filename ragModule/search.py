@@ -5,7 +5,7 @@ from langchain_core.prompts import ChatPromptTemplate , MessagesPlaceholder
 from ragModule.config import config
 class RAGSearch:
 
-    def __init__(self, persist_dir: str = "faiss_store", embedding_model: str = "all-MiniLM-L6-v2", llm_model: str = "qwen/qwen3-32b"):
+    def __init__(self, persist_dir: str = "faiss_store", embedding_model: str = "all-MiniLM-L6-v2", llm_model: str = "llama-3.1-8b-instant"):
         self.vectorstore = FaissVectorStore(persist_dir, embedding_model)
         # Load or build vectorstore
         faiss_path = os.path.join(persist_dir, "faiss.index")
@@ -17,16 +17,16 @@ class RAGSearch:
         else:
             self.vectorstore.load()
             
-        self.llm = ChatGroq(groq_api_key=config.llm_api_key, model_name=llm_model,reasoning_format='hidden')
+        self.llm = ChatGroq(groq_api_key=config.llm_api_key, model_name=llm_model)
         print(f"[INFO] Groq LLM initialized: {llm_model}")
 
-    def get_context(self,query:str , top_k:int = 5):
+    def get_context(self,query:str , top_k:int = 10):
         results = self.vectorstore.query(query, top_k=top_k)
         texts = [r["metadata"].get("text", "") for r in results if r["metadata"]]
         context = "\n\n".join(texts)
         return context
     
-    def search_and_summarize(self, query: str, top_k: int = 5 ,history:list = None) -> str:
+    def search_and_summarize(self, query: str, top_k: int = 10 ,history:list = None) -> str:
         context = self.get_context(query=query , top_k=top_k)
         if not context:
             return "No relevant documents found."
