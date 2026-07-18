@@ -1,23 +1,31 @@
 from ragModule.search import RAGSearch
 from langchain_core.messages import HumanMessage , AIMessage
 class RAGPipeline :
+
     async def generate(self , user_query:str , k:int = 3 , history:list = None):
+
         if history is None:
             history = []
         langchain_history = []
+
         for msg in history:
             if msg['role'] == 'user':
                 langchain_history.append(HumanMessage(content=msg['content']))
             elif msg['role'] == 'assistant':
                 langchain_history.append(AIMessage(content=msg['content']))
+
         rgSearch = RAGSearch()
         stream = rgSearch.search_and_summarize(query=user_query,top_k=k,history = langchain_history)
+        
         async def IntercptNprint():
+            context = rgSearch.get_context(query=user_query,top_k=k)
+            yield {"documents":context}
             async for chunk in stream:
                 text = chunk.content if hasattr(chunk , "content") else str(chunk)
                 print(text , end = '' , flush= True)
-                yield text
+                yield {"answer":text}
         return IntercptNprint()
+
 if __name__ == "__main__":
     import asyncio
     async def run():
