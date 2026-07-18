@@ -66,7 +66,6 @@ class FaissVectorStore:
         query_emb = self.model.encode([query_text]).astype('float32')
         return self.search(query_emb, top_k=top_k)
 
-
 if __name__ == "__main__":
     from data_loader import load_document
     docs = load_document("data")
