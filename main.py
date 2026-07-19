@@ -59,7 +59,7 @@ def langsmith_eval(run_id:str , question: str , full_response:str , context:list
 rag = RAGPipeline()
 class queryRequest(BaseModel):
     user_query :str
-    k :int = 7
+    k :int = 5
     history :list = []
 
 @traceable(name="LIVE_RAG_TRACING")
