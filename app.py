@@ -19,8 +19,8 @@ with st.sidebar:
     if st.button("What is the math behind XGBoost?"):
         st.session_state.preset_prompt = "Explain the mathematical foundation of XGBoost and how it builds trees."
         
-    if st.button("Why use Layer Norm over Batch Norm?"):
-        st.session_state.preset_prompt = "Why do Transformers use Layer Normalization instead of Batch Normalization?"
+    if st.button("what is RAG?, why do we build it."):
+        st.session_state.preset_prompt = "What is retrieval augmented generation and what are its uses?"
 
 # 2. Initialize Chat History
 if "messages" not in st.session_state:
