@@ -30,7 +30,7 @@ class RAGSearch:
         context = self.get_context(query=query , top_k=top_k)
         if not context:
             return "No relevant documents found."
-        prompt = ChatPromptTemplate.from_messages([('system',"you are an helpful ai research assistant. Answer based on retrieved context: {context}"),
+        prompt = ChatPromptTemplate.from_messages([('system',"you are an helpful ai research assistant.  Keep answer brief and concise, answer based on the following context: {context}"),
                                                    MessagesPlaceholder(variable_name='history'),
                                                    ("human","{query}")])
         chain = prompt | self.llm
