@@ -1,16 +1,19 @@
 from fastapi import FastAPI , HTTPException , BackgroundTasks
 from pydantic import BaseModel
 from fastapi.responses import StreamingResponse
-from rag_main import RAGPipeline
 import uvicorn
 import traceback
+
+os.environ["LANGCHAIN_PROJECT"] = "AI_ML_RAG_EVALUATION"
+os.environ["LANGCHAIN_TRACING_V2"] = "true"
+
 from langsmith import traceable
 from langsmith.run_helpers import get_current_run_tree
 from langsmith import Client
 from langchain_groq import ChatGroq
 import os
-os.environ["LANGCHAIN_PROJECT"] = "AI_ML_RAG_EVALUATION"
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
+import asyncio
+from rag_main import RAGPipeline
 
 app = FastAPI(title="AI/ML Research paper RAG api",
               description="Backend for query answer from rag pipline using FAISS(facebook ai similarity search) and Langchain")
