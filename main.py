@@ -3,15 +3,13 @@ from pydantic import BaseModel
 from fastapi.responses import StreamingResponse
 import uvicorn
 import traceback
-
+import os
 os.environ["LANGCHAIN_PROJECT"] = "AI_ML_RAG_EVALUATION"
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
-
 from langsmith import traceable
 from langsmith.run_helpers import get_current_run_tree
 from langsmith import Client
 from langchain_groq import ChatGroq
-import os
 import asyncio
 from rag_main import RAGPipeline
 
